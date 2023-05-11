@@ -1,16 +1,19 @@
 from pymongo import MongoClient
 from .mongo_db_configs import mongo_db_infos
 
+
 class DBConnectionHandler:
+    """DBConnection class."""
 
     def __init__(self) -> None:
-
-
-        self.__connection_string = "mongodb://{}:{}@{}:{}/?authSource=admin".format(
-            mongo_db_infos["USERNAME"],
-            mongo_db_infos["PASSWORD"],
-            mongo_db_infos["HOST"],
-            mongo_db_infos["PORT"]
+        """Construct."""
+        self.__connection_string = (
+            "mongodb://{}:{}@{}:{}/?authSource=admin".format(
+                mongo_db_infos["USERNAME"],
+                mongo_db_infos["PASSWORD"],
+                mongo_db_infos["HOST"],
+                mongo_db_infos["PORT"],
+            )
         )
 
         self.__database_name = mongo_db_infos["DB_NAME"]
@@ -18,11 +21,14 @@ class DBConnectionHandler:
         self.__db_connection = None
 
     def connect_to_db(self):
-        self.__client  = MongoClient(self.__connection_string)
+        """Connect to db."""
+        self.__client = MongoClient(self.__connection_string)
         self.__db_connection = self.__client[self.__database_name]
 
     def get_db_connection(self):
+        """Get connection db."""
         return self.__db_connection
 
     def get_db_client(self):
+        """Get client db."""
         return self.__client

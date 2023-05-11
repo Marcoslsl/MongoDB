@@ -1,4 +1,4 @@
-from models.connection_options import DBConnectionHandler 
+from models.connection_options import DBConnectionHandler
 from models.repository import MinhaCollectionRepository
 
 db_handle = DBConnectionHandler()
@@ -6,25 +6,13 @@ db_handle.connect_to_db()
 conn = db_handle.get_db_connection()
 collection = MinhaCollectionRepository(conn)
 
+filtros = {"name": "marcos"}
 
-order = {
-    "name": "victor",
-    "endereco": "santa rosa",
-    "pedidos": {
-        "pizza": "10",
-        "docinho": "2",
-        "pao": "4"
-    }
-}
+op = {"name": 0}
 
-order2 = {
-    "name": "lucas",
-    "endereco": "rua maria 2",
-    "pedidos": {
-        "hamburger": "1",
-        "refrigerante": "2",
-        "pizza doce": "1"
-    }
-}
-list_of_d = [order, order2]
-collection.insert_list_of_documents(list_of_d)
+# response = collection.select_many(filtros, op)
+# response2 = collection.select_one(filtros)
+# response3 = collection.select_if_property_exists()
+# response4 = collection.select_many_order()
+response5 = collection.select_by_object_id()
+print(response5)

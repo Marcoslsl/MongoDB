@@ -7,16 +7,11 @@ db_connection = client["meuBanco"]
 
 collection = db_connection.get_collection("minhaCollection")
 
-search_filter = {
-    "estou": "aqui"
-}
+search_filter = {"estou": "aqui"}
 
 response = collection.find(search_filter)
 
 for i in response:
     print(i)
 
-collection.insert_one({
-    "estou": "aqui", 
-    "numeros": [1,2,3]
-})
+collection.insert_one({"estou": "aqui", "numeros": [1, 2, 3]})
