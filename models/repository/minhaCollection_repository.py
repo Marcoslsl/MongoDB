@@ -153,3 +153,75 @@ class MinhaCollectionRepository:
         for elem in data:
             response.append(elem)
         return response
+
+    def edit_registry(self, campo: str, novo_valor: str, id: str) -> any:
+        """Update de um registro.
+
+        Parameters
+        ----------
+        id: str
+            Object id do documento.
+        campo: str
+            campo que deseja ser alterado.
+        novo_valor: str
+            novo valor escolhido.
+        """
+        collection = self.__db_connection.get_collection(
+            self.__collection_name
+        )
+        data = collection.update_one(
+            {"_id": ObjectId(id)}, {"$set": {campo: novo_valor}}
+        )
+        print(f"Numero de dados modificados: {data.modified_count}")
+
+    def edit_many_registries(self, filtro, propriedade) -> any:
+        """Update de um registro, ou addiciona um campo ao mesmo se nao tiver.
+
+        Parameters
+        ----------
+        filtro: Dict
+            filtro
+        propriedade: Dict
+            propriedade para ser alterada.
+
+            EXAMPLE:
+            filtro = {
+                "profissao": "desenvolvedor"
+            }
+
+            prop = {
+                "CEP": "55028071"
+            }
+            response = collection.edit_many_registries(filtro, prop)
+        """
+        collection = self.__db_connection.get_collection(
+            self.__collection_name
+        )
+        data = collection.update_many(filtro, {"$set": propriedade})
+        print(f"Numero de dados modificados: {data.modified_count}")
+
+    def edit_many_increment(self, campo, num) -> any:
+        """Incrementa campo numerico."""
+        collection = self.__db_connection.get_collection(
+            self.__collection_name
+        )
+        data = collection.update_many(
+            {"_id": ObjectId("645d06282ee2a230f353c5b4")},
+            {"$inc": {campo: num}},
+        )
+
+    def delete_many_registries(self, filtro) -> any:
+        """Delete registros."""
+        collection = self.__db_connection.get_collection(
+            self.__collection_name
+        )
+        data = collection.delete_many(filtro)
+        print(f"Numero de registros deletados: {data.deleted_count}")
+
+    def delete_one_registry(self, id) -> any:
+        """Delete registros."""
+        collection = self.__db_connection.get_collection(
+            self.__collection_name
+        )
+        data = collection.delete_one({"_id": ObjectId(id)})
+        print(f"Numero de registros deletados: {data.deleted_count}")
