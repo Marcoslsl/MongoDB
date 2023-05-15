@@ -1,5 +1,6 @@
 from typing import Dict, List, Type
 from bson.objectid import ObjectId
+from datetime import timedelta
 
 
 class MinhaCollectionRepository:
@@ -225,3 +226,14 @@ class MinhaCollectionRepository:
         )
         data = collection.delete_one({"_id": ObjectId(id)})
         print(f"Numero de registros deletados: {data.deleted_count}")
+
+    def create_index_ttl(self):
+        """Create index ttl."""
+        collection = self.__db_connection.get_collection(
+            self.__collection_name
+        )
+
+        tempo_de_vida = timedelta(seconds=10)
+        collection.create_index(
+            "data_de_criacao", expireAfterSeconds=tempo_de_vida.seconds
+        )
